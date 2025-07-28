@@ -1,16 +1,18 @@
 ## What's ClienThings ?
-**ClienThings** is a project to simulate more things client-side.
+ClienThings is a project to predict more things client-side.
 For example, if you eat food, the animation only ends when the server indicates it will.
 This mod fixes that and therefore compensates for the ping.
-You can use ClienThings on your server to find out if a player is using **ClienThings**.
+You can use ClienThings on your server to find out if a player is using the same mod.
 
 Currently this mod compensates for :
-- Consumables (95%)
-- End Crystal (75%)
+- Consumables
+- End Crystal
 - Elytras
 - Firework rocket
 - Cooldowns
 - Entity pose
+- Weapons
+- Swap (experimental)
 
 Coming Soon™ :
 - Void damage
@@ -23,41 +25,194 @@ Coming Soon™ :
 - Sounds
 - Crafting
 - Weapons (Bow/Crossbow, etc.)
-- Swap Items In Hands
 - Pick Block
 - Scaffolding
 - Knockback (in some case)
-- Fall damage (maybe)
-- Wind charge (maybe)
+- Fall damage
+- Wind charge
+- Minecart
+- Minecart TNT
+
+<details>
+<summary>Explanations of the predictions</summary>
+
+> Consumables
+
+Allows consumption to be completed without delay
+
+> End Crystal
+
+Allows crystals to be spawned and destroyed immediately.
+Since some servers don't have server-side compensation software, this also allows real crystals to be automatically destroyed upon reception if they were previously destroyed in their client-side state only.
+
+> Elytras
+
+Allows you to stop flying without delay
+
+> Firework rocket
+
+Allows you to use a firework rocket without delay when flying in elytra
+
+> Cooldowns
+
+Removes server-imposed cooldowns that are late (on enderpearls, chorus fruit, etc.)
+
+> Entity pose
+
+Removes server-imposed poses (flying, sneaking...)
+
+> Weapons
+
+Predicts weapon behavior (crossbow & trident)
+
+> Swap
+
+Predicts the swap of items between the main and secondary hand
+
+</details>
+
+
+
+<details>
+<summary>Configuration (explanations)</summary>
+  
+- enabled : Enables or disables the option
+- optout : Enables or disables the opt-out
+- debug : Enables or disables debug mode
+- experimental : Enables or disables experimental options
+- servers : Allows you to select which server type the given option should work on. CUSTOM / MODDED / PLUGIN / VANILLA
+- autoDestroy : Automatically destroys a crystal when received if a client-side crystal located in the exact same location was previously destroyed
+- bypassRequiredAiming : Ignores certain conditions such as range, item usage (shield/consumable) or aiming when using autoDestroy
+- maxDistance : Maximum distance in blocks between server-side and client-side actions to bind (prevents unwanted server actions from being considered true by the client)
+- maxTime : Maximum time in milliseconds before server actions can no longer be synchronized with the client (prevents unwanted server actions from being considered true by the client)
+</details>
 
 
 <details>
 <summary>Configuration (default)</summary>
   
 ```
-#consumables: Enables or disables consumable prediction
-#consumables_MaxDistance: Maximum distance (in blocks) between the client and the server for the end-of-consumption sound(s) to be ignored
-#consumables_MaxTime: Maximum time (in ms) the server has to play the end-of-consumption sound(s) to be ignored
-#cooldowns: Enables or disables cooldowns prediction
-#debugMode: Debug mode (for developers)
-#elytras: Enables or disables elytras prediction
-#firework: Enables or disables firework prediction
-#firework_MaxDistance: Maximum distance (in blocks) between the client and the server for the firework sound to be ignored
-#firework_MaxTime: Maximum time (in ms) the server has to delete the firework
-#pose: Enables or disables pose prediction
-#optout: Enables or disables the opt-out
-
-consumables=true
-consumables_MaxDistance=0.2
-consumables_MaxTime=3200
-cooldowns=true
-debugMode=true
-elytras=true
-firework=true
-firework_MaxDistance=2.0
-firework_MaxTime=3200
-optout=true
-pose=true
+{
+  "enabled": true,
+  "optout": true,
+  "debug": false,
+  "experimental": false,
+  "consumables": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxDistance": 2.0,
+    "maxTime": 6400
+  },
+  "cooldowns": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    }
+  },
+  "crystals": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxTime": 800,
+    "autoDestroy": {
+      "enabled": true,
+      "servers": {
+        "CUSTOM": false,
+        "MODDED": true,
+        "PLUGIN": true,
+        "VANILLA": true
+      },
+      "bypassRequiredAiming": {
+        "enabled": true,
+        "servers": {
+          "CUSTOM": false,
+          "MODDED": true,
+          "PLUGIN": false,
+          "VANILLA": true
+        }
+      }
+    }
+  },
+  "elytras": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": false,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    }
+  },
+  "firework": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxDistance": 3.0,
+    "maxTime": 3200
+  },
+  "pose": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    }
+  },
+  "swap": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    }
+  },
+  "weapons": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxDistance": 48.0,
+    "maxTime": 4800,
+    "crossbow": {
+      "enabled": true,
+      "servers": {
+        "CUSTOM": true,
+        "MODDED": true,
+        "PLUGIN": true,
+        "VANILLA": true
+      }
+    },
+    "trident": {
+      "enabled": true,
+      "servers": {
+        "CUSTOM": true,
+        "MODDED": true,
+        "PLUGIN": true,
+        "VANILLA": true
+      }
+    }
+  }
+}
 ```
 
 </details>
@@ -66,7 +221,7 @@ pose=true
 Instead of waiting for an indication from the server, the client will simulate it at the right time, without delay.
 
 ## Disclaimer
-On a very high ping, this mod may be detected as a cheat by some anti-cheats. Use with caution on public servers. (Even though there is very little chance of being banned)
+This mod may be detected as a cheat by some anti-cheats. Use with caution on public servers. (Even though there is very little chance of being banned)
 
 ## Compatibility
 **ClienThings** should work on any client and server.
