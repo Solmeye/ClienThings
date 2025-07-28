@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.optout;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import fr.solmey.clienthings.ClienThings;
 
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -23,7 +23,7 @@ public class ClientPlayNetworkHandlerMixin {
   @Inject(method = "onGameJoin", at = @At("HEAD"), cancellable = true)
   private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
 
-    if (Config.optout) {
+    if (JsonConfig.config.optout) {
       ClientPlayNetworkHandler networkHandler = (ClientPlayNetworkHandler)(Object) this;
       Identifier id = Identifier.of(ClienThings.MOD_ID, "optout");
       UnknownCustomPayload payload = new UnknownCustomPayload(id);

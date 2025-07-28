@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.pose;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
@@ -31,7 +31,7 @@ public class ClientPlayNetworkHandlerMixin {
         argsOnly = true
     )
     private EntityTrackerUpdateS2CPacket modifierPacket(EntityTrackerUpdateS2CPacket originalPacket) {
-      if (Config.pose) {
+      if (JsonConfig.config.pose.enabled && JsonConfig.shouldWork(JsonConfig.config.pose.servers)) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         
         if(player != null) {

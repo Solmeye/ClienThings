@@ -1,13 +1,17 @@
 package fr.solmey.clienthings.util;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import net.minecraft.sound.SoundEvent;
+
+import net.minecraft.util.math.MathHelper;
+
 
 public class Sounds {
 
 
     public static final int CONSUMABLES = 0;
     public static final int FIREWORK = 1;
+    public static final int WEAPONS = 2;
 
     private static long[] timestamps = new long[256];
     private static double[][] coordinates = new double[256][3];
@@ -31,19 +35,22 @@ public class Sounds {
 
     public static void clear() {
        for(int i = 0; i < 256 ; i++) {
-            double MaxTime;
+            double maxTime;
             switch(category[i]) {
                 case CONSUMABLES:
-                    MaxTime = Config.consumables_MaxTime;
+                    maxTime = JsonConfig.config.consumables.maxTime;
                     break;
                 case FIREWORK:
-                    MaxTime = Config.firework_MaxTime;
+                    maxTime = JsonConfig.config.firework.maxTime;
+                    break;
+                case WEAPONS:
+                    maxTime = JsonConfig.config.weapons.maxTime;
                     break;
                 default:
-                    MaxTime = 3200;
+                    maxTime = 3200;
                     break;
             }
-            if(System.currentTimeMillis() - timestamps[i] >= MaxTime)
+            if(System.currentTimeMillis() - timestamps[i] >= maxTime)
                 timestamps[i] = 0;
         }
     }
@@ -59,24 +66,27 @@ public class Sounds {
         
         for(int i = 0; i < 256 ; i++) {
             if(sounds[i] != null) {
-                distance = Math.sqrt(
-                    Math.pow(coordinates[i][0] - posX, 2) +
-                    Math.pow(coordinates[i][1] - posY, 2) +
-                    Math.pow(coordinates[i][2] - posZ, 2)
-                );
-                double MaxDistance;
+
+                float f = (float)(coordinates[i][0] - posX);
+                float g = (float)(coordinates[i][1] - posY);
+                float h = (float)(coordinates[i][2] - posZ);
+                distance = MathHelper.sqrt(f * f + g * g + h * h);
+                double maxDistance;
                 switch(category[i]) {
                     case CONSUMABLES: 
-                        MaxDistance = Config.consumables_MaxDistance;
+                        maxDistance = JsonConfig.config.consumables.maxDistance;
                         break;
                     case FIREWORK:
-                        MaxDistance = Config.firework_MaxDistance;
+                        maxDistance = JsonConfig.config.firework.maxDistance;
+                        break;
+                    case WEAPONS:
+                        maxDistance = JsonConfig.config.weapons.maxDistance;
                         break;
                     default:
-                        MaxDistance = 2.0;
+                        maxDistance = 2.0;
                         break;
                 }
-                if(distance <= MaxDistance && sound.equals(sounds[i]) && timestamps[i] <= timestamps[cursor] && timestamps[i] != 0) {
+                if(distance <= maxDistance && sound.equals(sounds[i]) && timestamps[i] <= timestamps[cursor] && timestamps[i] != 0) {
                     cursor = i;
                     needed = true;
                 }

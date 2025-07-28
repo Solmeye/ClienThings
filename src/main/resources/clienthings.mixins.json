@@ -4,39 +4,53 @@
 	"package": "fr.solmey.clienthings.mixin",
 	"mixins": [],
 	"client": [
-		"consumables.ClientPlayerEntityMixin",
-		"consumables.ClientPlayNetworkHandlerMixin",
-		"consumables.LivingEntityInvoker",
+		"consumables.LivingEntityMixin",
+		"consumables.ConsumableComponentMixin",
+		"consumables.TeleportRandomlyConsumeEffectMixin",
+		"consumables.FoodComponentMixin",
+		"consumables.PlaySoundConsumeEffectMixin",
+		"consumables.ApplyEffectsConsumeEffectMixin",
 
 		"cooldowns.ClientPlayNetworkHandlerMixin",
 
-		"crystals.EndCrystalItemMixin",
-		"crystals.ClientPlayerEntityMixin",
-		"crystals.ClientPlayNetworkHandlerMixin",
 		"crystals.ClientPlayNetworkHandlerAccessor",
-		"crystals.EntityMixin",
+		"crystals.EndCrystalItemMixin",
 		"crystals.EntityAccessor",
+		"crystals.EntityMixin",
 		"crystals.LivingEntityAccessor",
-		"crystals.PlayerEntityMixin",
 		"crystals.MinecraftClientAccessor",
+		"crystals.PlayerEntityMixin",
 
 		"debug.Debug",
+		"debug.ClientPlayNetworkHandlerMixinGameJoin",
+		"debug.ClientPlayerEntityMixin",
 		
-		"elytras.ClientPlayerEntityMixin",
 		"elytras.ClientPlayNetworkHandlerMixin",
 		"elytras.EntityAccessor",
 		"elytras.LivingEntityAccessor",
 		"elytras.LivingEntityMixin",
 		"elytras.MinecraftClientMixin",
 
-		"firework.FireworkRocketItemMixin",
 		"firework.FireworkRocketEntityAccessor",
+		"firework.FireworkRocketItemMixin",
 		"firework.FireworkRocketEntityMixin",
-		"firework.ClientPlayNetworkHandlerMixin",
+
+		"minecarts.MinecartEntityMixin",
+		"minecarts.MinecartItemMixin",
 
 		"optout.ClientPlayNetworkHandlerMixin",
 
-		"pose.ClientPlayNetworkHandlerMixin"
+		"pose.ClientPlayNetworkHandlerMixin",
+
+		"swap.MinecraftClientMixin",
+
+		"system.ClientPlayerEntityMixin",
+		"system.ClientPlayNetworkHandlerMixin",
+		"system.MinecraftClientMixin",
+
+		"weapons.crossbow.CrossbowItemMixin",
+		"weapons.trident.PlayerEntityMixin",
+		"weapons.trident.TridentItemMixin"
 	],
 	"server": [
 		"optout.ServerPlayNetworkHandlerMixin"

@@ -1,6 +1,6 @@
 package fr.solmey.clienthings.mixin.crystals;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import fr.solmey.clienthings.util.Entities;
 
 import java.util.List;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EndCrystalItemMixin {
     @Inject(method = "useOnBlock", at = @At("TAIL"), cancellable = true)
     private ActionResult useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> info) {
-        if (Config.crystals) {
+        if (JsonConfig.config.crystals.enabled && JsonConfig.shouldWork(JsonConfig.config.crystals.servers)) {
             World world = context.getWorld();
             BlockPos blockPos = context.getBlockPos();
             BlockState blockState = world.getBlockState(blockPos);

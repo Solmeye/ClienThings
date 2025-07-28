@@ -8,7 +8,7 @@
 		"Solmey"
 	],
 	"contact": {
-        "homepage": "https://modrinth.com/mod/clienthings",
+        "homepage": "https://modrinth.com/project/zaVwh7an",
         "issues": "https://github.com/Solmeye/ClienThings/issues",
 		"sources": "https://github.com/Solmeye/ClienThings"
     },
@@ -25,7 +25,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.10",
-		"minecraft":  "~1.21.6",
+		"minecraft":  "~1.21.2",
 		"java": ">=21"
 	},
 	"suggests": {
@@ -34,7 +34,7 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.modrinth": "https://modrinth.com/mod/clienthings",
+				"modmenu.modrinth": "https://modrinth.com/project/zaVwh7an",
 				"modmenu.discord": "https://discord.gg/aBRbcmYhkA"
 			}
 		}

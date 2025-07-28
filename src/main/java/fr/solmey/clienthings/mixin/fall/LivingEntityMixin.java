@@ -1,6 +1,6 @@
 package fr.solmey.clienthings.mixin.fall;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -20,10 +20,10 @@ public class LivingEntityMixin {
 	/*@Inject(at = @At("RETURN"), method = "handleFallDamage", cancellable = true)
 	public boolean handleFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
 		
-		if(Config.falldamageExperimental) {
+		if(JsonConfig.config.falldamage && JsonConfig.shouldWork(JsonConfig.config.falldamage.servers)) {
 			LivingEntity player = (LivingEntity)(Object)this;
 			int i = ((LivingEntityInvoker) player).invokeComputeFallDamage(fallDistance, damagePerDistance);
-			if(Config.debugMode)
+			if(JsonConfig.config.debug)
 				System.out.println("FALL :" + i);
 
 			World world = player.getWorld();

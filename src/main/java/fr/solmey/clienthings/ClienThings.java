@@ -1,6 +1,6 @@
 package fr.solmey.clienthings;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import net.fabricmc.api.ModInitializer;
 
 //import org.slf4j.Logger;
@@ -16,8 +16,9 @@ public class ClienThings implements ModInitializer {
 
 	//@Override
 	public void onInitialize() {
-		Config.loadConfig();
-        if (Config.debugMode) {
+		JsonConfig.loadConfig();
+
+        if (JsonConfig.config.debug && JsonConfig.config.enabled) {
             System.out.println("Debug mode enabled");
         }
 		// This code runs as soon as Minecraft is in a mod-load-ready state.

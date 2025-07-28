@@ -3,7 +3,7 @@ package fr.solmey.clienthings.mixin.optout;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 
 import fr.solmey.clienthings.ClienThings;
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;

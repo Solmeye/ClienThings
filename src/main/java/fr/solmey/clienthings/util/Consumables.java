@@ -1,6 +1,6 @@
 package fr.solmey.clienthings.util;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 public class Consumables {
 
@@ -18,7 +18,7 @@ public class Consumables {
 
     public static void clear() {
        for(int i = 0; i < 256 ; i++) {
-            if(System.currentTimeMillis() - timestamps[i] >= 8000) //Config.consumables_MaxTime
+            if(System.currentTimeMillis() - timestamps[i] >= 8000) //JsonConfig.config.consumables_maxTime
                 timestamps[i] = 0;
         }
     }

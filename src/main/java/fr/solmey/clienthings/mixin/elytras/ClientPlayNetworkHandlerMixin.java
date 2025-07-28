@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.elytras;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import fr.solmey.clienthings.util.Elytras;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class ClientPlayNetworkHandlerMixin {
         argsOnly = true
     )
     private EntityTrackerUpdateS2CPacket modifierPacket(EntityTrackerUpdateS2CPacket originalPacket) {
-      if (Config.elytras) {
+      if (JsonConfig.config.elytras.enabled && JsonConfig.shouldWork(JsonConfig.config.elytras.servers)) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         
         if(player != null) {
@@ -45,10 +45,10 @@ public class ClientPlayNetworkHandlerMixin {
                 Byte oldFlags = (Byte) entry.value();
                 Byte newFlags = oldFlags;
                 
-                if((oldFlags & (1 << Elytras.GLIDING_FLAG_INDEX)) != 0 && player.isGliding()) {
+                /*if((oldFlags & (1 << Elytras.GLIDING_FLAG_INDEX)) != 0 && player.isGliding()) {
                   ClientPlayNetworkHandler networkHandler = (ClientPlayNetworkHandler) (Object) this;
                   networkHandler.sendPacket(new ClientCommandC2SPacket(player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                }
+                }*/
 
                 if(!Elytras.bypass && !Elytras.bypass2) {
                   if (player.isGliding())
@@ -89,14 +89,14 @@ public class ClientPlayNetworkHandlerMixin {
     }
 }
 
-@Mixin(ClientPlayNetworkHandler.class)
+/*@Mixin(ClientPlayNetworkHandler.class)
 class ClientPlayNetworkHandlerMixinGameJoin {
 
   @Inject(method = "onGameJoin", at = @At("HEAD"), cancellable = true)
   private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
-    if(Config.elytras) {
+    if(JsonConfig.config.elytras.enabled && JsonConfig.shouldWork(JsonConfig.config.elytras.servers)) {
       Elytras.bypass = true;
       Elytras.bypass2 = true;
     }
   }
-}
+}*/

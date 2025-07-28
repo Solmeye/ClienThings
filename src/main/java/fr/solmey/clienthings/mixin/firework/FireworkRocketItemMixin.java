@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.firework;
 
 import net.minecraft.item.FireworkRocketItem;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import fr.solmey.clienthings.util.Entities;
 
 import fr.solmey.clienthings.util.Sounds;
@@ -32,7 +32,7 @@ class FireworkRocketItemMixin {
 
   @Inject(method = "use", at = @At("HEAD"), cancellable = true)
   private ActionResult use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> info) {
-    if(Config.firework) {
+    if(JsonConfig.config.firework.enabled && JsonConfig.shouldWork(JsonConfig.config.firework.servers)) {
       if (user.isGliding()) {
         ItemStack itemStack = user.getStackInHand(hand);
         ClientWorld clientWorld = (ClientWorld) user.getWorld();
@@ -40,7 +40,6 @@ class FireworkRocketItemMixin {
         ProjectileEntity initialFirework = new FireworkRocketEntity(world, itemStack, user);
         FireworkRocketEntity fireworkEntity = (FireworkRocketEntity) firework;
 
-        
         clientWorld.addEntity(firework);
         Entities.set(System.currentTimeMillis(), firework, initialFirework, Entities.FAKE); //For cancel the EntitySpawnS2CPacket
                 

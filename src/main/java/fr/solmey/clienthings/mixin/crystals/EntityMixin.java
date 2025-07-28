@@ -1,6 +1,6 @@
 package fr.solmey.clienthings.mixin.crystals;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 import fr.solmey.clienthings.util.Entities;
 
 import fr.solmey.clienthings.mixin.crystals.EntityAccessor;
@@ -43,7 +43,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin {
     @Inject(method = "sidedDamage", at = @At("TAIL"), cancellable = true)
 	public final boolean sidedDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
-		if(Config.crystals) {
+		if(JsonConfig.config.crystals.enabled && JsonConfig.shouldWork(JsonConfig.config.crystals.servers)) {
 			Entity entity = (Entity) (Object) this;
 			if(entity instanceof EndCrystalEntity) {
 				//ClientPlayNetworkHandler networkHandler = MinecraftClient.getInstance().getNetworkHandler();

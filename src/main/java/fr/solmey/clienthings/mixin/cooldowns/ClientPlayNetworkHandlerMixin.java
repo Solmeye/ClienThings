@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.cooldowns;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;
@@ -25,19 +25,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayNetworkHandlerMixin {
 	@Inject(method = "onCooldownUpdate", at = @At("HEAD"), cancellable = true)
   public void onCooldownUpdate(CooldownUpdateS2CPacket packet, CallbackInfo info) {
-    if (Config.cooldowns) {
-      ItemCooldownManager cooldownManager = MinecraftClient.getInstance().player.getItemCooldownManager();
-      Item item = Registries.ITEM.get(packet.cooldownGroup());
-      ItemStack stack = new ItemStack(item);
+    if (JsonConfig.config.cooldowns.enabled && JsonConfig.shouldWork(JsonConfig.config.cooldowns.servers)) {
+      MinecraftClient client = MinecraftClient.getInstance();
+        if(client != null && client.player != null) {
+        ItemCooldownManager cooldownManager = client.player.getItemCooldownManager();
+        Item item = Registries.ITEM.get(packet.cooldownGroup());
+        ItemStack stack = new ItemStack(item);
 
-      if (cooldownManager.isCoolingDown(stack) && packet.cooldown() != 0)
-        info.cancel();
+        if (cooldownManager != null && cooldownManager.isCoolingDown(stack) && packet.cooldown() != 0)
+          info.cancel();
+      }
     }
   }
 
  	/* @Inject(method = "onEntityAttributes", at = @At("HEAD"), cancellable = true)
   public void onEntityAttributes(EntityAttributesS2CPacket packet, CallbackInfo info) {
-    if (Config.cooldowns)
+    if (JsonConfig.config.cooldowns.enabled && JsonConfig.shouldWork(JsonConfig.config.cooldowns.servers))
         info.cancel();
   } */
 }

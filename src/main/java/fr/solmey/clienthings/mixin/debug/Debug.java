@@ -2,7 +2,7 @@ package fr.solmey.clienthings.mixin.debug;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 
-import fr.solmey.clienthings.config.Config;
+import fr.solmey.clienthings.config.JsonConfig;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -18,12 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class Debug {
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void tick(CallbackInfo info) {
-		if (Config.debugMode) {
+		if (JsonConfig.config.debug) {
             //MinecraftClient minecraftClient = MinecraftClient.getInstance();
 			//ClientPlayNetworkHandler networkHandler = minecraftClient.getNetworkHandler();
             //System.out.println(networkHandler.getBrand());
-
-			
 		}
 	}
 }
