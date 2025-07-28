@@ -12,7 +12,8 @@ Currently this mod compensates for :
 - Cooldowns
 - Entity pose
 - Weapons
-- Swap (experimental)
+- Minecart
+- Swap
 
 Coming Soon™ :
 - Void damage
@@ -24,14 +25,11 @@ Coming Soon™ :
 - Tchat
 - Sounds
 - Crafting
-- Weapons (Bow/Crossbow, etc.)
 - Pick Block
 - Scaffolding
 - Knockback (in some case)
 - Fall damage
 - Wind charge
-- Minecart
-- Minecart TNT
 
 <details>
 <summary>Explanations of the predictions</summary>
@@ -61,13 +59,17 @@ Removes server-imposed cooldowns that are late (on enderpearls, chorus fruit, et
 
 Removes server-imposed poses (flying, sneaking...)
 
+> Minecarts
+
+Allows minecarts to be spawned without delay (if experimental setting is enabled you can ride it without delay)
+
 > Weapons
 
 Predicts weapon behavior (crossbow & trident)
 
 > Swap
 
-Predicts the swap of items between the main and secondary hand
+Predicts the swap of items between the main and secondary hand (only works if experimental setting is enabled)
 
 </details>
 
@@ -164,6 +166,16 @@ Predicts the swap of items between the main and secondary hand
     },
     "maxDistance": 3.0,
     "maxTime": 3200
+  },
+  "minecart": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxTime": 1200
   },
   "pose": {
     "enabled": true,
