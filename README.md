@@ -233,7 +233,10 @@ Predicts the swap of items between the main and secondary hand (only works if ex
 Instead of waiting for an indication from the server, the client will simulate it at the right time, without delay.
 
 ## Disclaimer
+This mod does NOT give any advantages, it is not a cheat. It only compensates for the ping.
 This mod may be detected as a cheat by some anti-cheats. Use with caution on public servers. (Even though there is very little chance of being banned)
+
+Versions for 1.21-1.21.1 are deprecated.
 
 ## Compatibility
 **ClienThings** should work on any client and server.
