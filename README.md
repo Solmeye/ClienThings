@@ -17,11 +17,10 @@ Currently this mod compensates for :
 - Wind charge
 
 In development :
-
+- Jukebox
 
 Coming Soon™ :
 - Note block
-- Jukebox
 - Interfaces
 - Void damage
 - Game mode change
