@@ -14,12 +14,16 @@ Currently this mod compensates for :
 - Weapons
 - Minecart
 - Swap
+- Wind charge
+
+In development :
+
 
 Coming Soon™ :
+- Note block
+- Jukebox
+- Interfaces
 - Void damage
-- Interactions with blocks (Interfaces, Note block, Jukebox...)
-- Interactions with items
-- Interactions with entities
 - Game mode change
 - Potion Effects
 - Tchat
@@ -27,9 +31,11 @@ Coming Soon™ :
 - Crafting
 - Pick Block
 - Scaffolding
-- Knockback (in some case)
+- Knockback
 - Fall damage
-- Wind charge
+- Interactions with blocks
+- Interactions with items
+- Interactions with entities
 
 <details>
 <summary>Explanations of the predictions</summary>
@@ -37,6 +43,10 @@ Coming Soon™ :
 > Consumables
 
 Allows consumption to be completed without delay
+
+> Cooldowns
+
+Removes server-imposed cooldowns that are late (on enderpearls, chorus fruit, etc.)
 
 > End Crystal
 
@@ -51,25 +61,29 @@ Allows you to stop flying without delay
 
 Allows you to use a firework rocket without delay when flying in elytra
 
-> Cooldowns
+> Minecarts
 
-Removes server-imposed cooldowns that are late (on enderpearls, chorus fruit, etc.)
+Allows minecarts to be spawned without delay (if experimental setting is enabled you can ride it without delay)
 
 > Entity pose
 
 Removes server-imposed poses (flying, sneaking...)
 
-> Minecarts
-
-Allows minecarts to be spawned without delay (if experimental setting is enabled you can ride it without delay)
-
-> Weapons
-
-Predicts weapon behavior (crossbow & trident)
-
 > Swap
 
 Predicts the swap of items between the main and secondary hand (only works if experimental setting is enabled)
+
+> Weapons
+
+Throw the tridents without delay
+Finish loading the crossbow without delay
+
+> Wind Charge
+
+Predicts weapon behavior (crossbow & trident)
+
+Launches wind-charges without delay and makes them destroy themselves at maximum height + 30 (as in vanilla)
+
 
 </details>
 
@@ -203,7 +217,7 @@ Predicts the swap of items between the main and secondary hand (only works if ex
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxDistance": 48.0,
+    "maxDistance": 3.0,
     "maxTime": 4800,
     "crossbow": {
       "enabled": true,
@@ -223,6 +237,17 @@ Predicts the swap of items between the main and secondary hand (only works if ex
         "VANILLA": true
       }
     }
+  },
+  "windcharge": {
+    "enabled": true,
+    "servers": {
+      "CUSTOM": false,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    },
+    "maxDistance": 3.0,
+    "maxTime": 3200
   }
 }
 ```
