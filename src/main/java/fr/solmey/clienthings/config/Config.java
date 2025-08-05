@@ -15,4 +15,5 @@ public class Config {
     public Pose pose;
     public Swap swap;
     public Weapons weapons;
+    public Windcharge windcharge;
 }

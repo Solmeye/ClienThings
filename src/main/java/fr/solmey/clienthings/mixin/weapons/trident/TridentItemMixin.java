@@ -51,7 +51,6 @@ public class TridentItemMixin {
 				if ((f <= 0.0F || playerEntity.isTouchingWaterOrRain()) && !stack.willBreakNextUse()) {
 
 					RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND).orElse(SoundEvents.ITEM_TRIDENT_THROW);
-					Random threadSafeRandom = Random.createThreadSafe();
 					ClientWorld clientWorld = ((ClientWorld)world);
 
 					//stack.damage(1, playerEntity);
@@ -59,7 +58,7 @@ public class TridentItemMixin {
 						ItemStack itemStack = stack.splitUnlessCreative(1, (LivingEntity)playerEntity);
 
 						TridentEntity tridentEntity = new TridentEntity(((ClientWorld)world), (LivingEntity)playerEntity, itemStack);
-						tridentEntity.setVelocity((Entity)playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 1.0F);
+						tridentEntity.setVelocity((Entity)playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 0.0F);
 						TridentEntity initialTridentEntity = new TridentEntity(((ClientWorld)world), (LivingEntity)playerEntity, itemStack);
 						initialTridentEntity.setVelocity((Entity)playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 1.0F);
 						clientWorld.addEntity(tridentEntity);
@@ -71,11 +70,11 @@ public class TridentItemMixin {
 							tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 						}
 						
-						clientWorld.playSoundFromEntity(playerEntity, tridentEntity, Registries.SOUND_EVENT.getEntry((SoundEvent)registryEntry.value()), SoundCategory.PLAYERS, 1.0F, 1.0F, threadSafeRandom.nextLong());
+						clientWorld.playSoundFromEntity(playerEntity, tridentEntity, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
 						Sounds.set(System.currentTimeMillis(), playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), registryEntry.value(), Sounds.WEAPONS);
 					}
 					else if(f > 0) {
-						clientWorld.playSoundFromEntity(playerEntity, playerEntity, Registries.SOUND_EVENT.getEntry((SoundEvent)registryEntry.value()), SoundCategory.PLAYERS, 1.0F, 1.0F, threadSafeRandom.nextLong());
+						clientWorld.playSoundFromEntity(playerEntity, playerEntity, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
 						Sounds.set(System.currentTimeMillis(), playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), registryEntry.value(), Sounds.WEAPONS);
 					}
 				}

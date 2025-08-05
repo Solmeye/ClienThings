@@ -6,6 +6,8 @@ import fr.solmey.clienthings.mixin.crystals.MinecraftClientAccessor;
 import fr.solmey.clienthings.mixin.crystals.EntityAccessor;
 import fr.solmey.clienthings.mixin.firework.FireworkRocketEntityAccessor;
 
+import net.minecraft.entity.projectile.AbstractWindChargeEntity;
+import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.EntityType;
@@ -21,6 +23,7 @@ import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Box;
@@ -37,11 +40,13 @@ public class Entities {
     public static final byte TO_DESTROY = 1;    //To destroy as soon as possible
     public static final byte TO_CREATE = 2;     //To create as soon as possible
     public static final byte INITIAL = 3;       //The initial entity
+    public static final byte NOT_SYNCHRONISE = 4;       //Pls dont sync the position so quick :(
     public static final byte UNKNOWN = 127;     // IDK
 
     public static final int CONSUMABLES = 0;
     public static final int FIREWORK = 1;
     public static final int WEAPONS = 2;
+    public static final int WINDCHARGE = 3;
 
     public static void set(long _timestamp, Entity _Entity, Entity _initialEntity, byte _type) {
         int cursor = 0;
@@ -61,24 +66,50 @@ public class Entities {
             if(entities[i] != null) {
                 if(entities[i].getType() == EntityType.END_CRYSTAL) {
                     if((System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.crystals.maxTime && timestamps[i] != 0)) {
-                        remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
                     }
                 }
                 else if (entities[i].getType() == EntityType.FIREWORK_ROCKET) {
-                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.firework.maxTime && timestamps[i] != 0)
-                        remove(entities[i], Entity.RemovalReason.DISCARDED);
+                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.firework.maxTime && timestamps[i] != 0) {
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
+                    }
                 }
                 else if (entities[i].getType() == EntityType.TRIDENT) {
-                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.weapons.maxTime && timestamps[i] != 0)
-                        remove(entities[i], Entity.RemovalReason.DISCARDED);
+                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.weapons.maxTime && timestamps[i] != 0) {
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
+                    }
                 }
                 else if (entities[i] instanceof AbstractMinecartEntity) {
-                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.minecart.maxTime && timestamps[i] != 0)
-                        remove(entities[i], Entity.RemovalReason.DISCARDED);
+                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.minecart.maxTime && timestamps[i] != 0) {
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
+                    }
+                }
+                else if (entities[i].getType() == EntityType.WIND_CHARGE) {
+                    if(System.currentTimeMillis() - timestamps[i] >= JsonConfig.config.windcharge.maxTime && timestamps[i] != 0) {
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
+                    }
                 }
                 else {
                     if(System.currentTimeMillis() - timestamps[i] >= 5000 && timestamps[i] != 0)
-                        remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        if(type[i] != NOT_SYNCHRONISE)
+                            remove(entities[i], Entity.RemovalReason.DISCARDED);
+                        else
+                            remove(entities[i], null);
                 }
             }
         }
@@ -88,7 +119,8 @@ public class Entities {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         ClientWorld clientWorld = (ClientWorld) player.getWorld();
 
-        clientWorld.removeEntity(entity.getId(), reason);
+        if(reason != null)
+            clientWorld.removeEntity(entity.getId(), reason);
 
         for (int i = 0; i < entities.length; i++) {
             if(entities[i] == entity) {
@@ -100,11 +132,54 @@ public class Entities {
         }
     }
 
+    public static boolean has(Entity entity, byte _type) {
+        for (int i = 0; i < entities.length; i++)
+            if(entities[i] == entity && type[i] == _type)
+                return true;
+        return false;
+    }
+
     public static byte getType(Entity entity) {
         for (int i = 0; i < entities.length; i++)
             if(entities[i] == entity)
                 return (type[i]);
         return UNKNOWN;
+    }
+
+    public static boolean needToCancel(EntityS2CPacket packet) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if(minecraftClient != null) {
+            ClientPlayerEntity player = minecraftClient.player;
+            if(player != null) {
+                ClientWorld clientWorld = (ClientWorld) player.getWorld();
+                if(clientWorld != null) {
+                    Entity entity = packet.getEntity(clientWorld);
+                    if(entity != null && !entity.isLogicalSideForUpdatingMovement() && packet.isPositionChanged() && has(entity, NOT_SYNCHRONISE)) {
+                        Vec3d vec3d = new Vec3d(packet.getDeltaX(), packet.getDeltaY(), packet.getDeltaZ());
+
+                        double maxDistance;
+                        if(entity.getType() == EntityType.END_CRYSTAL)
+                            maxDistance = 0;
+                        else if (entity.getType() == EntityType.FIREWORK_ROCKET)
+                            maxDistance = JsonConfig.config.firework.maxDistance;
+                        else if (entity.getType() == EntityType.TRIDENT)
+                            maxDistance = JsonConfig.config.weapons.maxDistance;
+                        else if (entity instanceof AbstractMinecartEntity)
+                            maxDistance = 0;
+                        else if (entity.getType() == EntityType.WIND_CHARGE)
+                            maxDistance = JsonConfig.config.windcharge.maxDistance;
+                        else
+                            maxDistance = 0;
+
+                        if(vec3d.length() <= maxDistance)
+                            return true;
+                        else
+                            remove(entity, null);
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean needToCancel(EntitySpawnS2CPacket packet) {
@@ -120,14 +195,41 @@ public class Entities {
                 cursor = i;
         for(int i = 0; i < 256 ; i++) {
             if(initialEntities[i] != null) {
+                if(JsonConfig.config.debug) {
+                    System.out.println("DEBUG util.Entities.java at 199");
+                    System.out.println("Type : " + type[i]);
+                    System.out.println("TIMESTAMP : " + System.currentTimeMillis());
+                    System.out.println("PACKET X : " + packet.getX());
+                    System.out.println("PACKET Y : " + packet.getY());
+                    System.out.println("PACKET Z : " + packet.getZ());
+                    System.out.println("PACKET getEntityType : " + packet.getEntityType());
+                    System.out.println("PACKET getHeadYaw : " + packet.getHeadYaw());
+                    System.out.println("LOCAL Timestamp : " + timestamps[i]);
+                    System.out.println("LOCAL X : " + initialEntities[i].getX());
+                    System.out.println("LOCAL Y : " + initialEntities[i].getY());
+                    System.out.println("LOCAL Z : " + initialEntities[i].getZ());
+                    System.out.println("LOCAL getType : " + initialEntities[i].getType());
+                    System.out.println("LOCAL getHeadYaw : " + initialEntities[i].getHeadYaw());
+                    System.out.println();
+                }
+
+                boolean bl1 = packet.getPitch() == initialEntities[i].getPitch();
+                boolean bl2 = packet.getYaw() == initialEntities[i].getYaw();
+                boolean bl3 = bl1 && bl2;
+
                 if(packet.getEntityType() == initialEntities[i].getType()
                 && initialEntities[i].getX() == packet.getX()
                 && initialEntities[i].getY() == packet.getY()
                 && initialEntities[i].getZ() == packet.getZ()
-                && packet.getEntityType() == EntityType.TRIDENT ? true : packet.getYaw() == initialEntities[i].getYaw()
-                && packet.getEntityType() == EntityType.TRIDENT ? true : packet.getPitch() == initialEntities[i].getPitch()
+                && ((packet.getEntityType() == EntityType.TRIDENT) || (packet.getEntityType() == EntityType.WIND_CHARGE)) ? true : bl3
                 && packet.getHeadYaw() == initialEntities[i].getHeadYaw()
+                && type[i] != NOT_SYNCHRONISE
                 && timestamps[i] <= timestamps[cursor] && timestamps[i] != 0) {
+                    if(JsonConfig.config.debug) {
+                        System.out.println("DEBUG util.Entities.java at 229");
+                        System.out.println("Cancel needed");
+                        System.out.println();
+                    }
                     cursor = i;
                     needed = true;
 
@@ -146,15 +248,46 @@ public class Entities {
 
             Entity newEntity = ((ClientPlayNetworkHandlerAccessor) networkHandler).invokeCreateEntity(packet);
             newEntity.onSpawnPacket(packet);
-            if(newEntity instanceof EndCrystalEntity && entities[cursor] instanceof EndCrystalEntity)
-                ((EndCrystalEntity)newEntity).endCrystalAge = ((EndCrystalEntity)entities[cursor]).endCrystalAge;
-            if(newEntity instanceof FireworkRocketEntity && entities[cursor] instanceof FireworkRocketEntity) {
-                ((FireworkRocketEntityAccessor)newEntity).setLife(((FireworkRocketEntityAccessor)entities[cursor]).getLife());
-            }
 
-            if(type[cursor] == FAKE) { //getType()
+            if(type[cursor] == FAKE) {
                 clientWorld.addEntity(newEntity);
+
+                while (newEntity.age++ < entities[cursor].age && entities[cursor] != null) {
+                    if(JsonConfig.config.debug) {
+                        System.out.println("DEBUG util.Entities.java at 257");
+                        System.out.println("Age : " +     newEntity.age);
+                        System.out.println("Position : " +  newEntity.getPos());
+                        System.out.println("Velocity : " +  newEntity.getVelocity());
+                        System.out.println();
+                    }
+                    if(newEntity.getType() == EntityType.END_CRYSTAL)
+                        ((EndCrystalEntity)newEntity).endCrystalAge = ((EndCrystalEntity)entities[cursor]).endCrystalAge;
+                    else if (newEntity.getType() == EntityType.FIREWORK_ROCKET)
+                        ((FireworkRocketEntityAccessor)newEntity).setLife(((FireworkRocketEntityAccessor)entities[cursor]).getLife());
+                    else if (newEntity.getType() == EntityType.TRIDENT)
+                        ((TridentEntity)newEntity).tick();
+                    else if (newEntity instanceof AbstractMinecartEntity)
+                        ;
+                    else if (newEntity.getType() == EntityType.WIND_CHARGE)
+                        ((AbstractWindChargeEntity)newEntity).tick();
+                    else
+                        newEntity.tick();
+                }
+
                 remove(entities[cursor], Entity.RemovalReason.DISCARDED);
+
+                if(newEntity.getType() == EntityType.END_CRYSTAL)
+                    ;
+                else if (newEntity.getType() == EntityType.FIREWORK_ROCKET)
+                    ;
+                else if (newEntity.getType() == EntityType.TRIDENT)
+                    set(System.currentTimeMillis(), newEntity, newEntity, Entities.NOT_SYNCHRONISE);
+                else if (newEntity instanceof AbstractMinecartEntity)
+                    ;
+                else if (newEntity.getType() == EntityType.WIND_CHARGE)
+                    set(System.currentTimeMillis(), newEntity, newEntity, Entities.NOT_SYNCHRONISE);
+                else
+                    ;
             }
             else if (type[cursor] == TO_DESTROY) {
                 clientWorld.addEntity(newEntity);
@@ -216,7 +349,6 @@ public class Entities {
                     remove(entities[cursorFake], Entity.RemovalReason.DISCARDED);
             }
         }
-
         return needed;
     }
 }

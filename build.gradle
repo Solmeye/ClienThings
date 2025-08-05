@@ -39,6 +39,7 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
+	//options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
 }
 
 java {

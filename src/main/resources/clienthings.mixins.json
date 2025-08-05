@@ -21,10 +21,6 @@
 		"crystals.MinecraftClientAccessor",
 		"crystals.PlayerEntityMixin",
 
-		"debug.Debug",
-		"debug.ClientPlayNetworkHandlerMixinGameJoin",
-		"debug.ClientPlayerEntityMixin",
-		
 		"elytras.ClientPlayNetworkHandlerMixin",
 		"elytras.EntityAccessor",
 		"elytras.LivingEntityAccessor",
@@ -50,7 +46,10 @@
 
 		"weapons.crossbow.CrossbowItemMixin",
 		"weapons.trident.PlayerEntityMixin",
-		"weapons.trident.TridentItemMixin"
+		"weapons.trident.TridentItemMixin",
+
+		"windcharge.AbstractWindChargeEntityMixin",
+		"windcharge.WindChargeItemMixin"
 	],
 	"server": [
 		"optout.ServerPlayNetworkHandlerMixin"

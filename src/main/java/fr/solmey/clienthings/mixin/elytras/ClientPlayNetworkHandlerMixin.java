@@ -31,14 +31,14 @@ public class ClientPlayNetworkHandlerMixin {
         at = @At("HEAD"),
         argsOnly = true
     )
-    private EntityTrackerUpdateS2CPacket modifierPacket(EntityTrackerUpdateS2CPacket originalPacket) {
+    private EntityTrackerUpdateS2CPacket onEntityTrackerUpdate(EntityTrackerUpdateS2CPacket originalPacket) {
       if (JsonConfig.config.elytras.enabled && JsonConfig.shouldWork(JsonConfig.config.elytras.servers)) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         
         if(player != null) {
           Entity entity = player.getWorld().getEntityById(originalPacket.id());
           if(player == entity) {
-            List<DataTracker.SerializedEntry<?>> newEntries = new ArrayList();
+            List<DataTracker.SerializedEntry<?>> newEntries = new ArrayList<>();
             for (DataTracker.SerializedEntry<?> entry : originalPacket.trackedValues()) {
               if (entry.id() == Elytras.FLAGS_INDEX) {
 

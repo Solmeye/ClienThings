@@ -70,7 +70,7 @@ public class JsonConfig {
     public static final int PLUGIN = 1;             // Plugins softwares
     public static final int VANILLA = 0;            // Vanilla softwares
 
-    public static int type = VANILLA;   // Actual server type
+    public static int type = CUSTOM;   // Actual server type
 
 
 
@@ -193,7 +193,7 @@ public class JsonConfig {
         if(config.weapons.servers.MODDED == null) config.weapons.servers.MODDED = true;
         if(config.weapons.servers.PLUGIN == null) config.weapons.servers.PLUGIN = true;
         if(config.weapons.servers.VANILLA == null) config.weapons.servers.VANILLA = true;
-        if(config.weapons.maxDistance == null) config.weapons.maxDistance = 48.0;
+        if(config.weapons.maxDistance == null) config.weapons.maxDistance = 3.0;
         if(config.weapons.maxTime == null) config.weapons.maxTime = 4800;
         if(config.weapons.trident == null) config.weapons.trident = new Trident();
         if(config.weapons.trident.enabled == null) config.weapons.trident.enabled = true;
@@ -209,6 +209,16 @@ public class JsonConfig {
         if(config.weapons.crossbow.servers.MODDED == null) config.weapons.crossbow.servers.MODDED = true;
         if(config.weapons.crossbow.servers.PLUGIN == null) config.weapons.crossbow.servers.PLUGIN = true;
         if(config.weapons.crossbow.servers.VANILLA == null) config.weapons.crossbow.servers.VANILLA = true;
+
+        if(config.windcharge == null) config.windcharge = new Windcharge();
+        if(config.windcharge.enabled == null) config.windcharge.enabled = true;
+        if(config.windcharge.servers == null) config.windcharge.servers = new Servers();
+        if(config.windcharge.servers.CUSTOM == null) config.windcharge.servers.CUSTOM = false;
+        if(config.windcharge.servers.MODDED == null) config.windcharge.servers.MODDED = true;
+        if(config.windcharge.servers.PLUGIN == null) config.windcharge.servers.PLUGIN = true;
+        if(config.windcharge.servers.VANILLA == null) config.windcharge.servers.VANILLA = true;
+        if(config.windcharge.maxDistance == null) config.windcharge.maxDistance = 3.0;
+        if(config.windcharge.maxTime == null) config.windcharge.maxTime = 3200;
         
         saveConfig();
     }
@@ -232,6 +242,10 @@ public class JsonConfig {
     }
 
     public static void saveType(String arg) {
+        if (arg == null) {
+            type = CUSTOM;
+            return;
+        }
         switch(arg) {
             case "vanilla":
                 type = VANILLA;

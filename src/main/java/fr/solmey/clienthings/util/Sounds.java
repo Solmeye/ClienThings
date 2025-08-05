@@ -4,7 +4,7 @@ import fr.solmey.clienthings.config.JsonConfig;
 import net.minecraft.sound.SoundEvent;
 
 import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.util.math.Vec3d;
 
 public class Sounds {
 
@@ -12,6 +12,7 @@ public class Sounds {
     public static final int CONSUMABLES = 0;
     public static final int FIREWORK = 1;
     public static final int WEAPONS = 2;
+    public static final int WINDCHARGE = 3;
 
     private static long[] timestamps = new long[256];
     private static double[][] coordinates = new double[256][3];
@@ -46,6 +47,9 @@ public class Sounds {
                 case WEAPONS:
                     maxTime = JsonConfig.config.weapons.maxTime;
                     break;
+                case WINDCHARGE:
+                    maxTime = JsonConfig.config.windcharge.maxTime;
+                    break;
                 default:
                     maxTime = 3200;
                     break;
@@ -59,7 +63,7 @@ public class Sounds {
         clear();
         int cursor = 0;
         boolean needed = false;
-        double distance = 0;
+        Vec3d distance = new Vec3d(0, 0, 0);
         for(int i = 0; i < 256 ; i++)
             if(timestamps[i] >= timestamps[cursor])
                 cursor = i;
@@ -70,7 +74,8 @@ public class Sounds {
                 float f = (float)(coordinates[i][0] - posX);
                 float g = (float)(coordinates[i][1] - posY);
                 float h = (float)(coordinates[i][2] - posZ);
-                distance = MathHelper.sqrt(f * f + g * g + h * h);
+                //distance = MathHelper.sqrt(f * f + g * g + h * h);
+                distance = new Vec3d(f, g, h);
                 double maxDistance;
                 switch(category[i]) {
                     case CONSUMABLES: 
@@ -82,11 +87,14 @@ public class Sounds {
                     case WEAPONS:
                         maxDistance = JsonConfig.config.weapons.maxDistance;
                         break;
+                    case WINDCHARGE:
+                        maxDistance = JsonConfig.config.windcharge.maxDistance;
+                        break;
                     default:
                         maxDistance = 2.0;
                         break;
                 }
-                if(distance <= maxDistance && sound.equals(sounds[i]) && timestamps[i] <= timestamps[cursor] && timestamps[i] != 0) {
+                if(distance.length() <= maxDistance && sound.equals(sounds[i]) && timestamps[i] <= timestamps[cursor] && timestamps[i] != 0) {
                     cursor = i;
                     needed = true;
                 }

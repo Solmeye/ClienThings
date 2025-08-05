@@ -37,7 +37,7 @@ public class ClientPlayNetworkHandlerMixin {
         if(player != null) {
           Entity entity = player.getWorld().getEntityById(originalPacket.id());
           if(player == entity) {
-            List<DataTracker.SerializedEntry<?>> newEntries = new ArrayList();
+            List<DataTracker.SerializedEntry<?>> newEntries = new ArrayList<>();
             for (DataTracker.SerializedEntry<?> entry : originalPacket.trackedValues()) {
               if (entry.id() == POSE_INDEX) {
 
