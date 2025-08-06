@@ -20,6 +20,7 @@ In development :
 - Jukebox
 
 Coming Soon™ :
+- Cactus damage (yes)
 - Note block
 - Interfaces
 - Void damage
@@ -258,9 +259,12 @@ Instead of waiting for an indication from the server, the client will simulate i
 
 ## Disclaimer
 This mod does NOT give any advantages, it is not a cheat. It only compensates for the ping.
-This mod may be detected as a cheat by some anti-cheats. Use with caution on public servers. (Even though there is very little chance of being banned)
+This mod may be detected as a cheat by some anti-cheats. Use with caution on public servers.
 
 Versions for 1.21-1.21.1 are deprecated.
+
+Allowed on servers such as:
+- mcpvp.club
 
 ## Compatibility
 **ClienThings** should work on any client and server.
