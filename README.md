@@ -264,7 +264,12 @@ This mod may be detected as a cheat by some anti-cheats. Use with caution on pub
 Versions for 1.21-1.21.1 are deprecated.
 
 Allowed on servers such as:
-- mcpvp.club
+- `mcpvp.club`
+- `fadedmc.net`
+
+Banned on
+- `pvphub.me`
+- `MCTiers (mace)`
 
 ## Compatibility
 **ClienThings** should work on any client and server.
