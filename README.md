@@ -275,6 +275,7 @@ Versions for 1.21-1.21.1 are deprecated.
 Allowed on servers such as:
 - `mcpvp.club`
 - `fadedmc.net`
+- `turtled.net`
 
 Banned on
 - `pvphub.me`
