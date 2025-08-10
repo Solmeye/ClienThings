@@ -21,7 +21,16 @@ In development :
 
 Coming Soon™ :
 - Cactus damage (yes)
+- Fishing Rod
+- Lead
+- Boat item
+- Snowball
+- Bottle o' Enchanting
+- Spawn Eggs
+- Egg
 - Note block
+- Item frame
+- Dyes
 - Interfaces
 - Void damage
 - Game mode change
