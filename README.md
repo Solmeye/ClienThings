@@ -28,6 +28,7 @@ Coming Soon™ :
 - Bottle o' Enchanting
 - Spawn Eggs
 - Egg
+- Armor Stand
 - Note block
 - Item frame
 - Dyes
@@ -109,7 +110,6 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
 - autoDestroy : Automatically destroys a crystal when received if a client-side crystal located in the exact same location was previously destroyed
 - bypassRequiredAiming : Ignores certain conditions such as range, item usage (shield/consumable) or aiming when using autoDestroy
 - maxDistance : Maximum distance in blocks between server-side and client-side actions to bind (prevents unwanted server actions from being considered true by the client)
-- maxTime : Maximum time in milliseconds before server actions can no longer be synchronized with the client (prevents unwanted server actions from being considered true by the client)
 </details>
 
 
@@ -122,6 +122,7 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
   "optout": true,
   "debug": false,
   "experimental": false,
+  "defaultPing": 75,
   "consumables": {
     "enabled": true,
     "servers": {
@@ -130,8 +131,7 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxDistance": 2.0,
-    "maxTime": 6400
+    "maxDistance": 2.0
   },
   "cooldowns": {
     "enabled": true,
@@ -150,7 +150,6 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxTime": 800,
     "autoDestroy": {
       "enabled": true,
       "servers": {
@@ -187,8 +186,16 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxDistance": 3.0,
-    "maxTime": 3200
+    "maxDistance": 3.0
+  },
+  "jukebox": {
+    "enabled": false,
+    "servers": {
+      "CUSTOM": true,
+      "MODDED": true,
+      "PLUGIN": true,
+      "VANILLA": true
+    }
   },
   "minecart": {
     "enabled": true,
@@ -197,8 +204,7 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "MODDED": true,
       "PLUGIN": true,
       "VANILLA": true
-    },
-    "maxTime": 1200
+    }
   },
   "pose": {
     "enabled": true,
@@ -227,7 +233,6 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "VANILLA": true
     },
     "maxDistance": 3.0,
-    "maxTime": 4800,
     "crossbow": {
       "enabled": true,
       "servers": {
@@ -250,13 +255,12 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
   "windcharge": {
     "enabled": true,
     "servers": {
-      "CUSTOM": false,
+      "CUSTOM": true,
       "MODDED": true,
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxDistance": 3.0,
-    "maxTime": 3200
+    "maxDistance": 3.0
   }
 }
 ```
