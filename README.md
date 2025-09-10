@@ -18,14 +18,18 @@ Currently this mod compensates for :
 
 In development :
 - Jukebox
+- Bottle o' Enchanting
+- Experience
 
 Coming Soon™ :
+- Ender Pearls
+- Potions
 - Cactus damage (yes)
+- Bed
 - Fishing Rod
 - Lead
-- Boat item
+- Boat
 - Snowball
-- Bottle o' Enchanting
 - Spawn Eggs
 - Egg
 - Armor Stand
@@ -150,7 +154,7 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "PLUGIN": true,
       "VANILLA": true
     },
-    "autoDestroy": {
+    "autoAttack": {
       "enabled": true,
       "servers": {
         "CUSTOM": false,
@@ -166,6 +170,15 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
           "PLUGIN": false,
           "VANILLA": true
         }
+      }
+    },
+    "hasFasterCrystals": {
+      "enabled": true,
+      "servers": {
+        "CUSTOM": true,
+        "MODDED": false,
+        "PLUGIN": false,
+        "VANILLA": false
       }
     }
   },
@@ -232,7 +245,6 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
       "PLUGIN": true,
       "VANILLA": true
     },
-    "maxDistance": 3.0,
     "crossbow": {
       "enabled": true,
       "servers": {
@@ -249,7 +261,8 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
         "MODDED": true,
         "PLUGIN": true,
         "VANILLA": true
-      }
+      },
+      "maxDistance": 3.0
     }
   },
   "windcharge": {
@@ -277,12 +290,13 @@ This mod may be detected as a cheat by some anti-cheats. Use with caution on pub
 Versions for 1.21-1.21.1 are deprecated.
 
 Allowed on servers such as:
-- `mcpvp.club`
-- `fadedmc.net`
-- `turtled.net`
+- `PvPClub`
+- `FadedMC`
+- `Turtled`
+- `CatPvP`
 
 Banned on
-- `pvphub.me`
+- `PvPHub`
 - `MCTiers (mace)`
 
 ## Compatibility
