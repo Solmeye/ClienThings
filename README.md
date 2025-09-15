@@ -4,6 +4,8 @@ For example, if you eat food, the animation only ends when the server indicates 
 This mod fixes that and therefore compensates for the ping.
 You can use ClienThings on your server to find out if a player is using the same mod.
 
+**Versions for 1.21-1.21.1 are deprecated.**
+
 Currently this mod compensates for :
 - Consumables
 - End Crystal
@@ -60,12 +62,14 @@ Allows consumption to be completed without delay
 
 > Cooldowns
 
-Removes server-imposed cooldowns that are late (on enderpearls, chorus fruit, etc.)
+Removes server-imposed cooldowns (on enderpearls, chorus fruit, etc.)
+The client side one remains applied
 
 > End Crystal
 
 Allows crystals to be spawned and destroyed immediately.
 Since some servers don't have server-side compensation software, this also allows real crystals to be automatically destroyed upon reception if they were previously destroyed in their client-side state only.
+Compatible with servers using Faster Crystals.
 
 > Elytras
 
@@ -85,18 +89,17 @@ Removes server-imposed poses (flying, sneaking...)
 
 > Swap
 
-Predicts the swap of items between the main and secondary hand (only works if experimental setting is enabled)
+Predicts the swap of items between the main and secondary hand
+(only works if experimental setting is enabled)
 
 > Weapons
 
-Throw the tridents without delay
-Finish loading the crossbow without delay
+Throw tridents client-side
+Finish loading crossbows without delay
 
 > Wind Charge
 
-Predicts weapon behavior (crossbow & trident)
-
-Launches wind-charges without delay and makes them destroy themselves at maximum height + 30 (as in vanilla)
+Launches wind-charges client-side and makes them destroy themselves at maximum height + 30 (as in vanilla)
 
 
 </details>
@@ -110,10 +113,12 @@ Launches wind-charges without delay and makes them destroy themselves at maximum
 - optout : Enables or disables the opt-out
 - debug : Enables or disables debug mode
 - experimental : Enables or disables experimental options
+- defaultPing : Default ping
 - servers : Allows you to select which server type the given option should work on. CUSTOM / MODDED / PLUGIN / VANILLA
-- autoDestroy : Automatically destroys a crystal when received if a client-side crystal located in the exact same location was previously destroyed
-- bypassRequiredAiming : Ignores certain conditions such as range, item usage (shield/consumable) or aiming when using autoDestroy
+- autoAttack : Automatically destroys a entity when received if a client-side entity located in the exact same location was previously destroyed (especially for crystals)
+- bypassRequiredAiming : Ignores certain conditions such as range, item usage (shield/consumable) or aiming when using autoAttack
 - maxDistance : Maximum distance in blocks between server-side and client-side actions to bind (prevents unwanted server actions from being considered true by the client)
+- hasFasterCrystals : Indicates which server types have a faster crystal by default
 </details>
 
 
@@ -298,6 +303,8 @@ Allowed on servers such as:
 Banned on
 - `PvPHub`
 - `MCTiers (mace)`
+
+Please ask if this mod is allowed before using it on a server.
 
 ## Compatibility
 **ClienThings** should work on any client and server.
